@@ -105,10 +105,10 @@ private struct NormalContent: View {
             terminal: 3,
             checkinRows: ["5", "6"],
             gate: "8B",
-            checkinClosingTime: Date.now,
+            checkinClosingTime: Time(hour: 13, minute: 37),
             gateOpeningTime: nil,
-            boardingTime: Date.now,
-            actualDepartureTime: Date.now,
+            boardingTime: Time(hour: 13, minute: 37),
+            actualDepartureTime: Time(hour: 13, minute: 37),
             lastUpdated: Date.now,
             isBookmarked: false
         )

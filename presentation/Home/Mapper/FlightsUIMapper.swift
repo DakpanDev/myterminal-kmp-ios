@@ -6,6 +6,7 @@
 //
 
 import Foundation
+import Shared
 
 final class FlightsUIMapper {
     
@@ -20,7 +21,7 @@ final class FlightsUIMapper {
             id: flight.id,
             name: flight.name,
             destination: flight.destination,
-            date: flight.departureDateTime
+            date: mapKtDateTimeToSwift(date: flight.departureDateTime)
         )
     }
 }

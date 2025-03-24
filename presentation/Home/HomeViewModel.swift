@@ -6,6 +6,7 @@
 //
 
 import Foundation
+import Shared
 
 @Observable
 final class HomeViewModel {
@@ -13,15 +14,15 @@ final class HomeViewModel {
     private let fetchMoreFlights: FetchMoreFlights
     private let mapper: FlightsUIMapper
     
-    private var _uiState: TypedUIState<FlightListUIModel>
+    private var _uiState: TypedUIState<FlightListUIModel> = .loading
     var uiState: TypedUIState<FlightListUIModel> {
         get { return _uiState }
     }
     
     init() {
         _uiState = .loading
-        observeFlights = ObserveFlights()
-        fetchMoreFlights = FetchMoreFlights()
+        observeFlights = InjectorKt.observeFlights()
+        fetchMoreFlights = InjectorKt.fetchMoreFlights()
         mapper = FlightsUIMapper()
         observeFlightsByDay(day: .now)
     }
@@ -29,7 +30,8 @@ final class HomeViewModel {
     private func observeFlightsByDay(day: Date) {
         Task {
             do {
-                for await flights in try observeFlights.execute(date: day) {
+                let ktDate = mapSwiftDateToKtDate(date: day)
+                for await flights in try observeFlights.invoke(day: ktDate) {
                     let uiModel = mapper.mapFlightListToUiModel(flights)
                     _uiState = .normal(data: uiModel)
                 }
@@ -72,7 +74,8 @@ final class HomeViewModel {
             Task {
                 do {
                     let date = data.flights.first?.date ?? Date.now
-                    try fetchMoreFlights.execute(date: date)
+                    let ktDate = mapSwiftDateToKtDate(date: date)
+                    try await fetchMoreFlights.invoke(date: ktDate)
                 } catch {
                     onFetchMoreFlightsError()
                 }

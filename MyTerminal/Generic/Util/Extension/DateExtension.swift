@@ -17,9 +17,7 @@ extension Date {
     }
     
     func toTimeString() -> String {
-        let formatter = DateFormatter()
-        formatter.dateStyle = .none
-        formatter.timeStyle = .short
-        return formatter.string(from: self)
+        // TODO: implement
+        return "TODO"
     }
 }

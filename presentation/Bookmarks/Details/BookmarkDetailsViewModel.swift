@@ -6,6 +6,7 @@
 //
 
 import Foundation
+import Shared
 
 @Observable
 final class BookmarkDetailsViewModel {
@@ -23,18 +24,22 @@ final class BookmarkDetailsViewModel {
     init(args: BookmarkDetailsViewModelArgs) {
         _uiState = .loading
         self.args = args
-        observeBookmark = ObserveBookmark()
-        bookmarkFlight = BookmarkFlight()
-        unBookmarkFlight = UnBookmarkFlight()
+        observeBookmark = InjectorKt.observeBookmark()
+        bookmarkFlight = InjectorKt.bookmarkFlight()
+        unBookmarkFlight = InjectorKt.unBookmarkFlight()
         mapper = DetailsUIMapper()
         retrieveDetails()
     }
     
     private func retrieveDetails() {
         Task {
-            for await bookmark in observeBookmark.execute(flightId: args.flightId) {
-                let mapped = mapper.mapFlightToDetails(flight: bookmark)
-                _uiState = .normal(data: mapped)
+            do {
+                for await bookmark in try observeBookmark.invoke(flightId: args.flightId) {
+                    let mapped = mapper.mapFlightToDetails(flight: bookmark)
+                    _uiState = .normal(data: mapped)
+                }
+            } catch {
+                onRetrieveBookmarkError()
             }
         }
     }
@@ -49,9 +54,9 @@ final class BookmarkDetailsViewModel {
             do {
                 if let data = _uiState.normalDataOrNil() {
                     if (data.isBookmarked) {
-                        try unBookmarkFlight.execute(id: data.id)
+                        try await unBookmarkFlight.invoke(id: data.id)
                     } else {
-                        try bookmarkFlight.execute(id: data.id)
+                        try await bookmarkFlight.invoke(id: data.id)
                     }
                 }
             } catch {

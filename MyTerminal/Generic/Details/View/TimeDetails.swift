@@ -8,10 +8,10 @@
 import SwiftUI
 
 struct TimeDetails: View {
-    var checkInClose: Date?
-    var gateOpening: Date?
-    var boardingTime: Date?
-    var actualDeparture: Date?
+    var checkInClose: Time?
+    var gateOpening: Time?
+    var boardingTime: Time?
+    var actualDeparture: Time?
     
     var body: some View {
         VStack(spacing: Spacing.x1) {
@@ -37,7 +37,7 @@ struct TimeDetails: View {
 
 private struct TimeRow: View {
     var title: String
-    var time: Date?
+    var time: Time?
     
     var body: some View {
         let unknownText = String(localized: "generic_unknown")
@@ -52,9 +52,9 @@ private struct TimeRow: View {
 
 #Preview {
     TimeDetails(
-        checkInClose: .now,
-        gateOpening: .now,
-        boardingTime: .now,
-        actualDeparture: .now
+        checkInClose: Time(hour: 13, minute: 37),
+        gateOpening: Time(hour: 13, minute: 37),
+        boardingTime: Time(hour: 13, minute: 37),
+        actualDeparture: Time(hour: 13, minute: 37)
     )
 }

@@ -6,6 +6,7 @@
 //
 
 import Foundation
+import Shared
 
 final class DetailsUIMapper {
     
@@ -21,15 +22,15 @@ final class DetailsUIMapper {
             name: flight.name,
             destination: flight.destination,
             states: states,
-            departureDateTime: flight.departureDateTime,
-            terminal: flight.terminal,
+            departureDateTime: mapKtDateTimeToSwift(date: flight.departureDateTime),
+            terminal: flight.terminal as! Int,
             checkinRows: flight.checkinRows ?? [],
             gate: flight.gate,
-            checkinClosingTime: flight.checkinClosingTime,
-            gateOpeningTime: flight.gateOpeningTime,
-            boardingTime: flight.boardingTime,
-            actualDepartureTime: flight.actualDeparturetime,
-            lastUpdated: flight.lastUpdated,
+            checkinClosingTime: mapKtTimeToSwift(time: flight.checkinClosingTime),
+            gateOpeningTime: mapKtTimeToSwift(time: flight.gateOpeningTime),
+            boardingTime: mapKtTimeToSwift(time: flight.boardingTime),
+            actualDepartureTime: mapKtTimeToSwift(time: flight.actualDepartureTime),
+            lastUpdated: mapKtDateTimeToSwift(date: flight.lastUpdated),
             isBookmarked: flight.isBookmarked
         )
     }

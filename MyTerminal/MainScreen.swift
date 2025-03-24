@@ -8,6 +8,9 @@
 import SwiftUI
 
 struct MainScreen: View {
+    @State private var homeViewModel = HomeViewModel()
+    @State private var bookmarksViewModel = BookmarksViewModel()
+    
     var body: some View {
         TabView {
             HomeView()
@@ -20,6 +23,8 @@ struct MainScreen: View {
                     Label("Bookmarks", systemImage: "list.clipboard")
                 }
         }
+        .environment(homeViewModel)
+        .environment(bookmarksViewModel)
     }
 }
 

@@ -6,6 +6,7 @@
 //
 
 import Foundation
+import Shared
 
 @Observable
 final class BookmarksViewModel {
@@ -18,20 +19,29 @@ final class BookmarksViewModel {
     }
     
     init() {
-        observeAllBookmarks = ObserveAllBookmarks()
+        observeAllBookmarks = InjectorKt.observeAllBookmarks()
         mapper = FlightsUIMapper()
         retrieveBookmarks()
     }
     
     private func retrieveBookmarks() {
         Task {
-            for await flightList in observeAllBookmarks.execute() {
-                let mapped = flightList
-                    .filter { $0.isBookmarked }
-                    .map(mapper.mapFlightToUiModel)
-                _uiModel = BookmarksUIModel(flights: mapped)
+            do {
+                for await flightList in try observeAllBookmarks.invoke() {
+                    let mapped = flightList
+                        .filter { $0.isBookmarked }
+                        .map(mapper.mapFlightToUiModel)
+                    _uiModel = BookmarksUIModel(flights: mapped)
+                }
+            } catch {
+                onRetrieveBookmmarksError()
             }
         }
+    }
+    
+    private func onRetrieveBookmmarksError() {
+        print("An error occurred while retrieving bookmarks")
+        _uiModel = BookmarksUIModel()
     }
     
     func onResume() {

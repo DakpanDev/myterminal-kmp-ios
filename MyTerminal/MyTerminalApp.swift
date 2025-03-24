@@ -11,18 +11,14 @@ import Shared
 
 @main
 struct MyTerminalApp: App {
-    @State private var homeViewModel = HomeViewModel()
-    @State private var bookmarksViewModel = BookmarksViewModel()
     
     init() {
-        KoinHelper().doInitKoin(platformScope: {_ in})
+        KoinHelperKt.doInitKoin(platformScope: { _ in })
     }
     
     var body: some Scene {
         WindowGroup {
             MainScreen()
-                .environment(homeViewModel)
-                .environment(bookmarksViewModel)
         }
     }
 }

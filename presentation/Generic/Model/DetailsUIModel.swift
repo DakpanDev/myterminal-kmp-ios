@@ -16,10 +16,10 @@ struct DetailsUIModel {
     let terminal: Int?
     let checkinRows: [String]
     let gate: String?
-    let checkinClosingTime: Date?
-    let gateOpeningTime: Date?
-    let boardingTime: Date?
-    let actualDepartureTime: Date?
+    let checkinClosingTime: Time?
+    let gateOpeningTime: Time?
+    let boardingTime: Time?
+    let actualDepartureTime: Time?
     let lastUpdated: Date
     let isBookmarked: Bool
 }
