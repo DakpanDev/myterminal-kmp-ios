@@ -35,6 +35,7 @@ final class DetailsViewModel {
         Task {
             do {
                 for await details in try observeFlightDetails.invoke(id: args.flightId) {
+                    print("Details: \(details)")
                     let mapped = mapper.mapFlightToDetails(flight: details)
                     _uiState = .normal(data: mapped)
                 }

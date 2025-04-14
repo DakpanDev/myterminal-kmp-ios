@@ -23,7 +23,7 @@ final class DetailsUIMapper {
             destination: flight.destination,
             states: states,
             departureDateTime: mapKtDateTimeToSwift(date: flight.departureDateTime),
-            terminal: flight.terminal as! Int,
+            terminal: flight.terminal as? Int,
             checkinRows: flight.checkinRows ?? [],
             gate: flight.gate,
             checkinClosingTime: mapKtTimeToSwift(time: flight.checkinClosingTime),
