@@ -68,13 +68,15 @@ private struct HomeViewContent: View {
                     }
                     ToolbarItem(placement: .navigationBarTrailing) {
                         DatePicker(selection: $selectedDate, displayedComponents: [.date]) {}
-                        .onChange(of: selectedDate) {
-                            onDateChange(selectedDate)
-                        }
+                            .onChange(of: selectedDate) {
+                                onDateChange(selectedDate)
+                            }
+                            .accessibilityIdentifier("datePicker")
                     }
                 }
                 .padding()
             }
+            .accessibilityIdentifier("scrollList")
         }
     }
 }
@@ -101,6 +103,7 @@ private struct FlightList: View {
         .navigationDestination(for: FlightUIModel.self) { flight in
             FlightDetailsView(flightId: flight.id)
         }
+        .accessibilityIdentifier("flightList")
     }
 }
 

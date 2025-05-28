@@ -16,11 +16,13 @@ struct MainScreen: View {
             HomeView()
                 .tabItem {
                     Label("Home", systemImage: "house")
+                        .accessibilityIdentifier("flightList")
                 }
 
             BookmarksView()
                 .tabItem {
                     Label("Bookmarks", systemImage: "list.clipboard")
+                        .accessibilityIdentifier("bookmarks")
                 }
         }
         .environment(homeViewModel)
